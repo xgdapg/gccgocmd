@@ -171,7 +171,7 @@ func addBuildFlags(cmd *Command) {
 	cmd.Flag.Var((*stringsFlag)(&buildLdflags), "ldflags", "")
 	cmd.Flag.Var((*stringsFlag)(&buildGccgoflags), "gccgoflags", "")
 	cmd.Flag.Var((*stringsFlag)(&buildContext.BuildTags), "tags", "")
-	cmd.Flag.Var(buildCompiler{}, "compiler", "")
+	// cmd.Flag.Var(buildCompiler{}, "compiler", "")
 	cmd.Flag.BoolVar(&buildRace, "race", false, "")
 }
 
@@ -325,6 +325,9 @@ func init() {
 	goos = buildContext.GOOS
 	if goos == "windows" {
 		exeSuffix = ".exe"
+	}
+	if build.Default.Compiler == "gccgo" {
+		return
 	}
 	var err error
 	archChar, err = build.ArchChar(goarch)
